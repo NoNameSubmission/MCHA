@@ -1,7 +1,6 @@
 import numpy as np
 import copy
 from Simulator.Modules import Func, Simulator
-from Simulator.ExampleDict import *
 
 
 def TranAddr(DestTuple:tuple, PresentTuple:tuple, AddrType:int,
@@ -306,35 +305,3 @@ class SimGenerator:
                          NextState=ChipNextState,
                          InputList=self.InputList,
                          ConnPort=self.ConnPort)
-
-
-def Example():
-    TestGen = SimGenerator(ChipX=2, ChipY=1, BlockX=2, BlockY=1, CoreNum=4, MemorySize=256,
-                           ReflectList=ExampleReflectList, CoreFuncList=ExampleCoreFuncList,
-                           CoreFuncIndex=ExampleCoreFuncIndex, InitMemID=ExampleInitMemID,
-                           InitMemNum=ExampleInitMemNum, InputList=ExampleInputList)
-    TestSim = TestGen.GenerateSim()
-    for i in range(100):
-        Log = TestSim.Process()
-        for name in Log:
-            Index = np.where(Log[name] != 0)
-            print(name, Index)
-            print(Log[name][Index])
-        print(TestSim.Event, TestSim.PresentCycle)
-        TestSim.ResetLog()
-        print("********************")
-        print(TestSim.Chips[0].ExtSendIdleCycle)
-        print(TestSim.Chips[1].ExtRecvIdleCycle)
-        print("%%%%%%%%%%%%%%%%%%%%")
-        print(TestSim.Chips[0].Blocks[1].Controller.CoreSendFF[1].Content)
-        print(TestSim.Chips[0].Blocks[1].Controller.EdgeRecvFF[0].Content)
-        print(TestSim.Chips[0].ExtConn[0].SendFF.Content)
-        print(TestSim.Chips[1].ExtConn[2].RecvFF.Content)
-        print(TestSim.Chips[1].Blocks[0].Controller.EdgeSendFF[2].Content)
-        print(TestSim.Chips[1].Blocks[0].Controller.CoreRecvFF[2].Content)
-        input()
-    return
-
-
-if __name__ == "__main__":
-    Example()

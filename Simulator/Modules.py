@@ -2,6 +2,8 @@ import numpy as np
 import heapq
 import copy
 import json
+import os
+import datetime
 
 CounterReturn = 0
 CounterAsk = 0
@@ -1167,28 +1169,16 @@ class Simulator:
 
     def StepSim(self):
         PastCycle = 0
+        folder_name = "./Data/SimLog/" + datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        os.makedirs(folder_name, exist_ok=True)
         while not self.RealSto():
             LastCycle = self.PresentCycle
             if self.PresentCycle - PastCycle >= 1000:
-                phase = self.Chips[0].Blocks[3].Cores[0].State
-                print(self.PresentCycle)
-                # if self.PresentCycle > 36000:
-                #     print("################")
-                #     print(self.Event)
-                #     print("################")
-                # print(self.Chips[0].Blocks[3].Cores[0].UpdateLimit[phase], phase)
-                # print(self.Chips[0].Blocks[3].Cores[0].UpdateNum[phase], "**************")
-                # print(len(self.Chips[0].Blocks[3].Cores[0].WaitProc), phase)
-                # print(self.Chips[0].Blocks[3].Cores[0].MemLimit[phase])
-                # print(self.Chips[0].Blocks[3].Cores[0].MemTypeCounter[phase])
+                print("Present Processing Cycle:", self.PresentCycle)
                 PastCycle = self.PresentCycle
-                # input()
-                # if self.PresentCycle >= 207000:
-                #     print("Check")
-                # self.TimeLog.append((self.PresentCycle, self.log))
                 CopyLog = copy.deepcopy(self.log)
                 CopyLog = {name:CopyLog[name].tolist() for name in CopyLog}
-                with open(f'./Data/SimLog/Log{self.PresentCycle}.json', "w", encoding="utf-8") as f:
+                with open(folder_name + f'/Log{self.PresentCycle}.json', "w", encoding="utf-8") as f:
                     json.dump(CopyLog, f, ensure_ascii=False, indent=4)
                 if self.EmptyLog():
                     break
@@ -1196,18 +1186,13 @@ class Simulator:
             self.Process()
         CopyLog = copy.deepcopy(self.log)
         CopyLog = {name:CopyLog[name].tolist() for name in CopyLog}
-        with open(f'./Data/SimLog/Log{LastCycle}.json', "w", encoding="utf-8") as f:
+        with open(folder_name + f'/Log{LastCycle}.json', "w", encoding="utf-8") as f:
             json.dump(CopyLog, f, ensure_ascii=False, indent=4)
+        print("Last Processing Cycle:", LastCycle)
         return LastCycle
 
 
 def main():
-    # Correct: (0, 0, 0, 0, 2) (0, 0, 1, 0, 0) (0, 0, 1, 0, 1) (0, 0, 1, 0, 2) (0, 0, 0, 1, 2)
-    #          (1, 0, 0, 0, 2) (1, 0, 0, 1, 0) (1, 0, 1, 0, 2) (1, 0, 0, 1, 2) (1, 0, 1, 1, 0)
-    #          (1, 0, 1, 1, 2) (0, 1, 0, 0, 1) (0, 1, 1, 0, 2) (0, 1, 1, 0, 3) (0, 1, 0, 1, 0)
-    #          (0, 1, 0, 1, 2) (0, 1, 0, 1, 3) (0, 1, 1, 1, 3) (1, 1, 0, 0, 1) (1, 1, 1, 0, 2)
-    #          (1, 1, 0, 1, 2) (1, 1, 1, 1, 1) (1, 1, 1, 1, 3)
-    # Wait:    [(0, 0, 1, 0, 2), (0, 0, 1, 1, 2)]
     return
 
 

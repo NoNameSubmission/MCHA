@@ -73,7 +73,7 @@ def Example():
         InputFeature=InputFeature,
         ClockCycle=ClockCycle
     )
-    print(SmallCoreRatio)
+    print("Target Cores for each pipeline layer", SmallCoreRatio)
     TotalBatchNum = np.ceil(math.prod(config['Scale']) * config['Density'])
     AgentNum = int(np.ceil(min(TotalBatchNum, BatchSize) / SmallCoreRatio[0]))
     # print(AgentNum)
@@ -112,6 +112,5 @@ def Example():
     with open('Test.pkl', 'wb') as f:
         pickle.dump(Generator, f)
     Test = Generator.GenerateSim()
-
-    print(Test.StepSim())
+    Test.StepSim()
     return

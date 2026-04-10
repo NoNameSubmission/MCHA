@@ -1189,7 +1189,7 @@ class Simulator:
         with open(folder_name + f'/Log{LastCycle}.json', "w", encoding="utf-8") as f:
             json.dump(CopyLog, f, ensure_ascii=False, indent=4)
         print("Last Processing Cycle:", LastCycle)
-        return LastCycle
+        return folder_name
 
 
 def main():

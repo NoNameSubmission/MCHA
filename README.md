@@ -38,4 +38,4 @@ To run the provided example and generate the compute intensity, you can directly
 ```
 python main.py
 ```
-Then the corresponding compute intensity graph will be stored as [Intensity.png](Intensity.png) in this repository.
+Then the corresponding compute intensity graph will be stored as Intensity.pdf in the generated [output directory](./Data/SimLog).

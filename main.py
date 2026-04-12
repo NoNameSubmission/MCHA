@@ -66,7 +66,7 @@ def main():
         Test = Generator.GenerateSim()
         Folder = Test.StepSim()
         IntensityPlot(Folder)
-    elif args.mode == 's':
+    elif args.mode == 'c':
         # the constructing process of the example
         Example()
         IntensityPlot(Folder)
